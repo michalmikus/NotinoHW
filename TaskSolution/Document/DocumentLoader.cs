@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml.Linq;
 using Newtonsoft.Json;
-using Google.Protobuf;
 using System.Xml;
 
-namespace TaskSolution
+namespace TaskSolution.Document
 {
     public class DocumentLoader
     {

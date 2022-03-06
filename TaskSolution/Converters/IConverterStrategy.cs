@@ -1,4 +1,4 @@
-﻿namespace TaskSolution
+﻿namespace TaskSolution.Converters
 {
     public interface IConverterStrategy
     {

@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using TaskSolution.Document;
+using TaskSolution.Documents;
 
 namespace TaskSolution.Controllers
 {
@@ -6,11 +8,17 @@ namespace TaskSolution.Controllers
     [Route("[controller]")]
     public class ConverterControler : ControllerBase
     {
+        private readonly DocumentLoader documentLoader;
+        private readonly DocumentConverter documentConverter;
+
+        public ConverterControler(DocumentLoader documentLoader, DocumentConverter documentConverter)
+        {
+            this.documentLoader = documentLoader;
+            this.documentConverter = documentConverter;
+        }
         [HttpPost("convert/{format}")]
         public async Task<IActionResult> GetConvertedFile(IFormFile file, string format)
         {
-            var documentLoader = new DocumentLoader();
-            var documentConverter = new DocumentConverter();
 
             try
             {

@@ -1,6 +1,6 @@
-﻿using TaskSolution.Converter;
+﻿using TaskSolution.Converters;
 
-namespace TaskSolution.Controllers
+namespace TaskSolution.Documents
 {
     public record Document(byte[] Content, string ContentType);
 
