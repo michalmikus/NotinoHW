@@ -1,36 +1,31 @@
 using Microsoft.AspNetCore.Mvc;
-using TaskSolution.Converter;
 
 namespace TaskSolution.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class ConverterControler : ControllerBase
-    {   
+    {
         [HttpPost("convert/{format}")]
-        public FileContentResult GetConvertedFile(IFormFile file, string format)
+        public async Task<IActionResult> GetConvertedFile(IFormFile file, string format)
         {
-            string filePath = Path.Combine(Environment.CurrentDirectory, file.FileName);
-            using (Stream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+            var documentLoader = new DocumentLoader();
+            var documentConverter = new DocumentConverter();
+
+            try
             {
-                file.CopyTo(fileStream);
-            }
+                var jsonContent = await documentLoader.LoadJson(file);
 
-            switch (format)
+                var document = documentConverter.Convert(format, jsonContent);
+
+                return File(document.Content, document.ContentType);
+            }
+            catch (FormatException ex)
             {
-                case "json":
-                    var convertToJSON = new ConvertToJSON(file.FileName);
-                    return File(System.IO.File.ReadAllBytes(convertToJSON.ConvertFile()), "application/json");
-
-                case "xml":
-                    var convertToXML = new ConvertToXML(file.FileName);
-                    return File(System.IO.File.ReadAllBytes(convertToXML.ConvertFile()), "text/xml");
-
+                return BadRequest(new { Message = ex.Message });
             }
-
-            return null;
         }
     }
 }
 
- 
+

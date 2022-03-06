@@ -2,6 +2,6 @@
 {
     public interface IConverterStrategy
     {
-        public string ConvertFile();
+        public byte[] ConvertFile(string jsonContent);
     }
 }
